@@ -1,4 +1,5 @@
 import { createResource } from "@/lib/actions/resources";
+import { findRelevantContent } from "@/lib/ai/embedding";
 import {
   convertToModelMessages,
   streamText,
@@ -31,6 +32,15 @@ export async function POST(req: Request) {
             .describe("the content or resource to add to the knowledge base"),
         }),
         execute: async ({ content }) => createResource({ content }),
+      }),
+      getInformation: tool({
+        description: `search for relevant information in your knowledge base to answer the user's question.`,
+        inputSchema: z.object({
+          question: z
+            .string()
+            .describe("the question to search for in the knowledge base"),
+        }),
+        execute: async ({ question }) => findRelevantContent(question),
       }),
     },
   });
