@@ -1,5 +1,5 @@
 import { createResource } from "@/lib/actions/resources";
-import { findRelevantContent } from "@/lib/ai/embedding";
+import { clearMemory, findRelevantContent } from "@/lib/ai/embedding";
 import {
   convertToModelMessages,
   streamText,
@@ -41,6 +41,11 @@ export async function POST(req: Request) {
             .describe("the question to search for in the knowledge base"),
         }),
         execute: async ({ question }) => findRelevantContent(question),
+      }),
+      clearMemory: tool({
+        description: `clear all resources from your knowledge base. Use this tool if the user asks you to forget everything you know.`,
+        inputSchema: z.object({}),
+        execute: async () => await clearMemory(),
       }),
     },
   });

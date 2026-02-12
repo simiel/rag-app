@@ -51,3 +51,7 @@ export const findRelevantContent = async (userQuery: string) => {
     .limit(4);
   return similarGuides;
 };
+
+export const clearMemory = async () => {
+  await db.delete(embeddings);
+};

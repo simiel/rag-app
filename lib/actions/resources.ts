@@ -33,3 +33,8 @@ export const createResource = async (input: NewResourceParams) => {
       return e.message.length > 0 ? e.message : "Error, please try again.";
   }
 };
+
+const clearResources = async () => {
+  await db.delete(resources);
+  await db.delete(embeddingsTable);
+};
